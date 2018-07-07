@@ -2,9 +2,11 @@ set number
 set nobackup
 set noundofile
 set noswapfile
-set tabstop=4
+set tabstop=2
 set smartindent
 set formatoptions=q
+set expandtab
+set shiftwidth=2
 
 syntax on
 
@@ -46,5 +48,7 @@ call neobundle#end()
 
 filetype plugin indent on
 NeoBundleCheck
+
+autocmd ColorScheme * highlight Visual ctermbg=22
 
 colorscheme molokai
