@@ -7,14 +7,8 @@ set smartindent
 set formatoptions=q
 set expandtab
 set shiftwidth=2
+set backspace=indent,eol,start
 syntax on
-
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-inoremap ` ``<LEFT>
 
 let g:indent_guides_enable_on_vim_startup = 1
 
@@ -39,6 +33,7 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'leafgarland/typescript-vim'
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundleLazy 'basyura/unite-rails'
 NeoBundleLazy 'taka84u9/vim-ref-ri'
@@ -65,6 +60,20 @@ inoremap <silent> <CR> <C-r>=<SID>custom_cr_function()<CR>
 function! s:custom_cr_function()
   return neocomplcache#smart_close_popup() . "\<CR>"
 endfunction
+
+" GrepCount
+nnoremap <expr> / _(":%s/<Cursor>/&/gn")
+
+function! s:move_cursor_pos_mapping(str, ...)
+    let left = get(a:, 1, "<Left>")
+    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+    return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+
+function! _(str)
+    return s:move_cursor_pos_mapping(a:str, "\<Left>")
+endfunction
+" GrepCount
 
 inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
