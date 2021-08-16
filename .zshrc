@@ -1,6 +1,8 @@
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="/Users/daisuke.takada.nd/.oh-my-zsh"
 ZSH_THEME="cobalt2"
+ZSH_DISABLE_COMPFIX=true
 
+# ZSH_THEME_RANDOM_CANDIDATES=("robbyrussell" "agnoster")
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
@@ -21,23 +23,29 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-alias ll='ls -l'
 alias gg='cd $(ghq root)/$(ghq list | peco)'
-alias chkubectx='kubectx | peco | xargs kubectx'
-alias chkubens='kubens | peco | xargs kubens'
+alias chkubectx='kubectx $(kubectx | peco)'
+alias chkubens='kubens $(kubens | peco)'
+alias tiller='/usr/local/opt/helm@2/bin/tiller'
+alias helm2='/usr/local/opt/helm@2/bin/helm'
+alias helm3='/usr/local/opt/helm/bin/helm'
 
+source $HOME/.cargo/env
+
+export PYENV_ROOT=$HOME/.pyenv
+export HELM_HOME=$HOME/.helm
 export JAVA_HOME=`/usr/libexec/java_home`
-export PATH="$HOME/.exenv/bin:$PATH"
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 export GOPATH=$HOME/Go
+
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH=$GOPATH/bin:$PATH
-
-source ~/.cargo/env
-
-export PATH=$HOME/.pyenv/shims:$PATH
+export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH
+export PATH=$HOME/.exenv/bin:$PATH
+export PATH=$HOME/.mix/escripts:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.rbenv/shims:$PATH
 export PATH=$HOME/.nodenv/shims:$PATH
+export PATH=$HOME/.pyenv/shims:$PATH
 export PATH=$HOME/.exenv/shims:$PATH
 
 eval "$(pyenv init -)"
