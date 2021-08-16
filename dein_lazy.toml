@@ -1,0 +1,17 @@
+[[plugins]]
+repo = 'basyura/unite-rails'
+
+[[plugins]]
+repo = 'taka84u9/vim-ref-ri'
+
+[[plugins]]
+repo = 'alpaca-tc/neorspec.vim'
+
+[[plugins]]
+repo = 'alpaca-tc/alpaca_tags'
+
+[[plugins]]
+repo = 'tsukkee/unite-tag'
+
+[[plugins]]
+repo = 'alpaca-tc/vim-endwise.git'
