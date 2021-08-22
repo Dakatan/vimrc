@@ -97,23 +97,23 @@ let g:defx_icons_column_length = 2
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
 call defx#custom#option('_', {
-        \ 'direction': 'topleft',
-        \ 'buffer_name': 'exlorer',
-        \ 'show_ignored_files': 1,
-        \ 'columns': 'indent:git:icons:filename:mark',
-        \ 'toggle': 1,
-        \ 'resume': 1,
-        \ })
+    \ 'direction': 'topleft',
+    \ 'buffer_name': 'exlorer',
+    \ 'show_ignored_files': 1,
+    \ 'columns': 'indent:git:icons:filename:mark',
+    \ 'toggle': 1,
+    \ 'resume': 1,
+    \ })
 call defx#custom#column('git', 'indicators', {
-        \ 'Modified'  : '✹',
-        \ 'Staged'    : '✚',
-        \ 'Untracked' : '✭',
-        \ 'Renamed'   : '➜',
-        \ 'Unmerged'  : '═',
-        \ 'Ignored'   : '☒',
-        \ 'Deleted'   : '✖',
-        \ 'Unknown'   : '?'
-        \ })
+    \ 'Modified'  : '✹',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '═',
+    \ 'Ignored'   : '☒',
+    \ 'Deleted'   : '✖',
+    \ 'Unknown'   : '?'
+    \ })
 
 """ Vim test settings
 let test#strategy = "vimproc"
