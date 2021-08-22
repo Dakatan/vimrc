@@ -120,6 +120,10 @@ let test#strategy = "vimproc"
 
 """ Color setting
 let g:airline_theme = 'papercolor'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 autocmd ColorScheme * highlight Normal ctermbg=none
 autocmd ColorScheme * highlight LineNr ctermbg=none
 autocmd ColorScheme * highlight Visual ctermbg=DarkMagenta
