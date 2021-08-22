@@ -65,6 +65,11 @@ nnoremap <silent> tr :LspReferences<CR>
 nnoremap <silent> ti :LspImplementation<CR>
 nnoremap <silent> tf :LspDocumentFormat<CR>
 let g:asyncomplete_popup_delay = 200
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+imap <Nul> <C-Space>
+imap <C-Space> <Plug>(asyncomplete_force_refresh)
 
 """ Whitespace ignore list
 let g:better_whitespace_filetypes_blacklist = ['unite', 'denite', 'help', 'defx', '']
@@ -91,6 +96,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 nnoremap <silent> [b :bprev<CR>
 nnoremap <silent> [n :bnext<CR>
 nnoremap <silent> zz :Defx<CR>
+inoremap <silent> jj <ESC>
 
 """ Defx setting
 let g:defx_icons_column_length = 2
