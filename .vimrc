@@ -8,6 +8,7 @@ set formatoptions=q
 set shiftwidth=2
 set backspace=indent,eol,start
 set splitbelow
+set splitright
 
 let g:indent_guides_enable_on_vim_startup = 1
 
@@ -33,6 +34,7 @@ if dein#load_state('~/.cache/dein')
   call dein#end()
   call dein#save_state()
 endif
+
 filetype plugin indent on
 syntax enable
 
@@ -42,32 +44,35 @@ endif
 
 let g:acp_enableAtStartup = 0
 
-""" GrepCount
+""" Grep count
 nnoremap <expr> / _(":%s/<Cursor>/&/gn")
 function! s:move_cursor_pos_mapping(str, ...)
   let left = get(a:, 1, "<Left>")
   let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
   return substitute(a:str, '<Cursor>', '', '') . lefts
 endfunction
+
 function! _(str)
   return s:move_cursor_pos_mapping(a:str, "\<Left>")
 endfunction
 
-""" LSP Setting
-nmap <silent> gd :LspDefinition<CR>
-nmap <silent> <f2> :LspRename<CR>
-nmap <silent> <Leader>d :LspTypeDefinition<CR>
-nmap <silent> <Leader>r :LspReferences<CR>
-nmap <silent> <Leader>i :LspImplementation<CR>
+""" LSP setting
+nnoremap <expr> <silent> <C-]> execute(':LspDefinition') =~ "not supported" ? "\<C-]>" : ":echo<CR>"
+nnoremap <silent> td :LspDefinition<CR>
+nnoremap <silent> tn :LspRename<CR>
+nnoremap <silent> tt :LspTypeDefinition<CR>
+nnoremap <silent> tr :LspReferences<CR>
+nnoremap <silent> ti :LspImplementation<CR>
+nnoremap <silent> tf :LspDocumentFormat<CR>
 let g:asyncomplete_popup_delay = 200
 
 """ Whitespace ignore list
-let g:extra_whitespace_ignored_filetypes = ['unite']
+let g:better_whitespace_filetypes_blacklist = ['unite', 'denite', 'help', 'defx', '']
 
-""" Winresizer Setting
+""" Winresizer setting
 let g:winresizer_start_key = '<C-T>'
 
-""" Toggle window Setting
+""" Toggle window setting
 let g:toggle_window_size = 0
 function! ToggleWindowSize()
   if g:toggle_window_size == 1
@@ -81,21 +86,43 @@ function! ToggleWindowSize()
 endfunction
 nnoremap M :call ToggleWindowSize()<CR>
 
-""" Complete setting
-inoremap { {}<Left>
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap ( ()<ESC>i
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-inoremap [ []<Left>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-
+""" Custom command
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 nnoremap <silent> [b :bprev<CR>
 nnoremap <silent> [n :bnext<CR>
+nnoremap <silent> zz :Defx<CR>
 
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+""" Defx setting
+let g:defx_icons_column_length = 2
+autocmd BufWritePost * call defx#redraw()
+autocmd BufEnter * call defx#redraw()
+call defx#custom#option('_', {
+        \ 'direction': 'topleft',
+        \ 'buffer_name': 'exlorer',
+        \ 'show_ignored_files': 1,
+        \ 'columns': 'indent:git:icons:filename:mark',
+        \ 'toggle': 1,
+        \ 'resume': 1,
+        \ })
+call defx#custom#column('git', 'indicators', {
+        \ 'Modified'  : '✹',
+        \ 'Staged'    : '✚',
+        \ 'Untracked' : '✭',
+        \ 'Renamed'   : '➜',
+        \ 'Unmerged'  : '═',
+        \ 'Ignored'   : '☒',
+        \ 'Deleted'   : '✖',
+        \ 'Unknown'   : '?'
+        \ })
+
+""" Vim test settings
+let test#strategy = "vimproc"
+
+""" Color setting
+let g:airline_theme = 'papercolor'
 autocmd ColorScheme * highlight Normal ctermbg=none
 autocmd ColorScheme * highlight LineNr ctermbg=none
 autocmd ColorScheme * highlight Visual ctermbg=DarkMagenta
 autocmd ColorScheme * highlight Comment ctermfg=DarkCyan
-
+autocmd ColorScheme * highlight CursorColumn ctermfg=LightGreen
 colorscheme molokai
