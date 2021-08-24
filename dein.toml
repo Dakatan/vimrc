@@ -1,43 +1,28 @@
 [[plugins]]
 repo  = 'Shougo/vimproc.vim'
 build = 'make'
-
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
-
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
-
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-file.vim'
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
-
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
-
 [[plugins]]
 repo = 'hashivim/vim-terraform'
-
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
-
 [[plugins]]
 repo = 'mattn/vim-goimports'
-
-[[plugins]]
-repo = 'mattn/vim-lsp-icons'
-
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
-
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
-
 [[plugins]]
 repo = 'simeji/winresizer'
-
-[[plugins]]
-repo = 'Shougo/vimfiler.vim'
-
 [[plugins]]
 repo = 'Shougo/defx.nvim'
 hook_add = '''
@@ -61,7 +46,6 @@ hook_source = '''
           \ 'root_icon': '  ',
           \ })
 '''
-
 [plugins.ftplugin]
 defx = '''
   " Define mappings
@@ -85,6 +69,8 @@ defx = '''
   \ defx#do_action('open')
   nnoremap <silent><buffer><expr> E
   \ defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> T
+  \ defx#do_action('open', 'tabedit')
   nnoremap <silent><buffer><expr> L
   \ defx#do_action('link')
   nnoremap <silent><buffer><expr> P
@@ -148,22 +134,21 @@ defx = '''
   \ [{'name': 'grep', 'args': [map(defx#get_selected_candidates(),
   \ { _, val -> val['action__path'] })]}])<CR>
 '''
-
 [[plugins]]
 repo = 'Shougo/denite.nvim'
-hook_source = '''
-  execute 'source' fnamemodify(expand('$MYVIMRC'), ':h').'/rc/plugins/denite.rc.vim'
-'''
 hook_add = '''
   nnoremap <silent> gr
   \ <Cmd>Denite grep<CR>
+  nnoremap <silent> gb
+  \ <Cmd>Denite buffer<CR>
 '''
-
 [plugins.ftplugin]
 denite = '''
   " Define mappings
   nnoremap <silent><buffer><expr> <CR>
   \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> f
+  \ denite#do_map('do_action', 'defx')
   nnoremap <silent><buffer><expr> a
   \ denite#do_map('choose_action')
   nnoremap <silent><buffer><expr> d
@@ -171,7 +156,9 @@ denite = '''
   nnoremap <silent><buffer><expr> e
   \ denite#do_map('do_action', 'open')
   nnoremap <silent><buffer><expr> E
-  \ denite#do_map('do_action', 'vsplit')
+  \ denite#do_map('do_action', 'vsplitswitch')
+  nnoremap <silent><buffer><expr> T
+  \ denite#do_map('do_action', 'tabswitch')
   nnoremap <silent><buffer><expr> p
   \ denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> P
@@ -193,72 +180,49 @@ denite = '''
   nnoremap <silent><buffer><expr> <C-l>
   \ denite#do_map('redraw')
 '''
-
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
-
 [[plugins]]
 repo = 'kristijanhusak/defx-icons'
-
 [[plugins]]
 repo = 'kristijanhusak/defx-git'
-
 [[plugins]]
 repo = 'roxma/nvim-yarp'
-
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-
 [[plugins]]
 repo = 'Shougo/vimshell.vim'
-
-[[plugins]]
-repo = 'Shougo/unite.vim'
-
 [[plugins]]
 repo = 'itchyny/lightline.vim'
-
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
 [[plugins]]
 repo = 'Shougo/neomru.vim'
-
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
-
 [[plugins]]
 repo = 'tpope/vim-surround'
-
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
-
 [[plugins]]
 repo = 'vim-scripts/AnsiEsc.vim'
-
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
-
 [[plugins]]
 repo = 'tomasr/molokai'
-
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
-
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
-
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-
 [[plugins]]
 repo = 'cespare/vim-toml'
-
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-
 [[plugins]]
 repo = 'vim-airline/vim-airline'
-
 [[plugins]]
 repo = 'vim-test/vim-test'
+[[plugins]]
+repo = 'towolf/vim-helm'
+[[plugins]]
+repo = 'Jagua/vim-denite-ghq'
