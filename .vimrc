@@ -9,6 +9,10 @@ set shiftwidth=2
 set backspace=indent,eol,start
 set splitbelow
 set splitright
+set laststatus=2
+
+""" Language
+let $LANG="en"
 
 let g:indent_guides_enable_on_vim_startup = 1
 
@@ -70,9 +74,15 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 imap <Nul> <C-Space>
 imap <C-Space> <Plug>(asyncomplete_force_refresh)
+autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'allowlist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
 
 """ Whitespace ignore list
-let g:better_whitespace_filetypes_blacklist = ['unite', 'denite', 'help', 'defx', '']
+let g:better_whitespace_filetypes_blacklist = ['git', 'unite', 'denite', 'help', 'defx', '']
 
 """ Winresizer setting
 let g:winresizer_start_key = '<C-T>'
@@ -107,7 +117,6 @@ call defx#custom#option('_', {
     \ 'buffer_name': 'exlorer',
     \ 'show_ignored_files': 1,
     \ 'columns': 'indent:git:icons:filename:mark',
-    \ 'toggle': 1,
     \ 'resume': 1,
     \ })
 call defx#custom#column('git', 'indicators', {
@@ -121,6 +130,9 @@ call defx#custom#column('git', 'indicators', {
     \ 'Unknown'   : '?'
     \ })
 
+""" Denite setting
+nnoremap <silent> [g :Denite ghq<CR>
+
 """ Vim test settings
 let test#strategy = "vimproc"
 
@@ -130,6 +142,8 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#enabled = 1
 autocmd ColorScheme * highlight Normal ctermbg=none
 autocmd ColorScheme * highlight LineNr ctermbg=none
 autocmd ColorScheme * highlight Visual ctermbg=DarkMagenta
