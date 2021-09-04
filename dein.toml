@@ -26,25 +26,25 @@ repo = 'simeji/winresizer'
 [[plugins]]
 repo = 'Shougo/defx.nvim'
 hook_add = '''
-  nnoremap <silent>   [Space]f
+  nnoremap <silent> [Space]f
   \ <Cmd>Defx -listed -resume -buffer-name=win-`win_getid()`<CR>
 '''
 hook_source = '''
   call defx#custom#column('mark', {
-          \ 'readonly_icon': '✗',
-          \ 'selected_icon': '✓',
-          \ })
+    \ 'readonly_icon': '✗',
+    \ 'selected_icon': '✓',
+    \ })
   call defx#custom#column('icon', {
-          \ 'directory_icon': '+',
-          \ 'opened_icon': '-',
-          \ 'root_icon': ' ',
-          \ })
+    \ 'directory_icon': '+',
+    \ 'opened_icon': '-',
+    \ 'root_icon': ' ',
+    \ })
   call defx#custom#column('icon', {
-          \ 'directory_icon': '▸ ',
-          \ 'file_icon': '  ',
-          \ 'opened_icon': '▾ ',
-          \ 'root_icon': '  ',
-          \ })
+    \ 'directory_icon': '▸ ',
+    \ 'file_icon': '  ',
+    \ 'opened_icon': '▾ ',
+    \ 'root_icon': '  ',
+    \ })
 '''
 [plugins.ftplugin]
 defx = '''
@@ -133,6 +133,8 @@ defx = '''
   nnoremap <silent><buffer> gr <Cmd>call denite#start(
   \ [{'name': 'grep', 'args': [map(defx#get_selected_candidates(),
   \ { _, val -> val['action__path'] })]}])<CR>
+  nnoremap <silent><buffer><expr> cd
+  \ defx#do_action('change_vim_cwd')
 '''
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -201,7 +203,7 @@ repo = 'tomtom/tcomment_vim'
 [[plugins]]
 repo = 'tpope/vim-surround'
 [[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
+repo = 'Yggdroot/indentLine'
 [[plugins]]
 repo = 'vim-scripts/AnsiEsc.vim'
 [[plugins]]
@@ -226,3 +228,19 @@ repo = 'vim-test/vim-test'
 repo = 'towolf/vim-helm'
 [[plugins]]
 repo = 'Jagua/vim-denite-ghq'
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+[[plugins]]
+repo = 'weirongxu/plantuml-previewer.vim'
+[[plugins]]
+repo = 'aklt/plantuml-syntax'
+[[plugins]]
+repo = 'voldikss/vim-floaterm'
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+[[plugins]]
+repo = 'tyru/caw.vim'
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
