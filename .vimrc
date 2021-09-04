@@ -10,6 +10,9 @@ set backspace=indent,eol,start
 set splitbelow
 set splitright
 set laststatus=2
+set termguicolors
+set autoindent
+set copyindent
 
 """ Language
 let $LANG="en"
@@ -48,19 +51,16 @@ endif
 
 let g:acp_enableAtStartup = 0
 
-""" Grep count
-nnoremap <expr> / _(":%s/<Cursor>/&/gn")
-function! s:move_cursor_pos_mapping(str, ...)
-  let left = get(a:, 1, "<Left>")
-  let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
-  return substitute(a:str, '<Cursor>', '', '') . lefts
-endfunction
-
-function! _(str)
-  return s:move_cursor_pos_mapping(a:str, "\<Left>")
-endfunction
-
-""" LSP setting
+""" Lsp setting
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Down> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+nnoremap <expr> <C-k> lsp#scroll(-6)
+nnoremap <expr> <C-j> lsp#scroll(+6)
+inoremap <expr> <C-k> pumvisible() ? lsp#scroll(-6) : "\<C-k>"
+inoremap <expr> <C-j> pumvisible() ? lsp#scroll(+6) : "\<C-j>"
 nnoremap <expr> <silent> <C-]> execute(':LspDefinition') =~ "not supported" ? "\<C-]>" : ":echo<CR>"
 nnoremap <silent> td :LspDefinition<CR>
 nnoremap <silent> tn :LspRename<CR>
@@ -68,10 +68,10 @@ nnoremap <silent> tt :LspTypeDefinition<CR>
 nnoremap <silent> tr :LspReferences<CR>
 nnoremap <silent> ti :LspImplementation<CR>
 nnoremap <silent> tf :LspDocumentFormat<CR>
+nnoremap <silent> th :LspHover<CR>
+nnoremap <silent> ta :LspCodeAction<CR>
+nnoremap <silent> tg :LspDocumentDiagnostics<CR>
 let g:asyncomplete_popup_delay = 200
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 imap <Nul> <C-Space>
 imap <C-Space> <Plug>(asyncomplete_force_refresh)
 autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
@@ -80,33 +80,31 @@ autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#s
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
+if has('nvim')
+  function! NvimSetCustomConfig(winid)
+    if a:winid | call nvim_win_set_config(a:winid, {'border': 'rounded'}) | endif
+  endfunction
+  autocmd User lsp_float_opened call NvimSetCustomConfig(lsp#ui#vim#output#getpreviewwinid())
+else
+  autocmd User lsp_float_opened call popup_setoptions(lsp#ui#vim#output#getpreviewwinid(), {
+    \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+    \ })
+endif
 
-""" Whitespace ignore list
+""" Whitespace setting
 let g:better_whitespace_filetypes_blacklist = ['git', 'unite', 'denite', 'help', 'defx', '']
 
 """ Winresizer setting
 let g:winresizer_start_key = '<C-T>'
 
-""" Toggle window setting
-let g:toggle_window_size = 0
-function! ToggleWindowSize()
-  if g:toggle_window_size == 1
-    exec "normal \<C-w>="
-    let g:toggle_window_size = 0
-  else
-    :resize
-    :vertical resize
-    let g:toggle_window_size = 1
-  endif
-endfunction
-nnoremap M :call ToggleWindowSize()<CR>
+""" Git Messager setting
+nnoremap <silent> <C-g>m :GitMessenger<CR>
+nnoremap <silent> <C-g>c :GitMessengerClose<CR>
 
-""" Custom command
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-nnoremap <silent> [b :bprev<CR>
-nnoremap <silent> [n :bnext<CR>
-nnoremap <silent> zz :Defx<CR>
-inoremap <silent> jj <ESC>
+""" IndentLine setting
+let g:indentLine_enabled = 0
+let g:indentLine_leadingSpaceEnabled = 1
+let g:indentLine_leadingSpaceChar = '·'
 
 """ Defx setting
 let g:defx_icons_column_length = 2
@@ -134,19 +132,110 @@ call defx#custom#column('git', 'indicators', {
 nnoremap <silent> [g :Denite ghq<CR>
 
 """ Vim test settings
-let test#strategy = "vimproc"
+let test#strategy = "floaterm"
+nnoremap <silent> tN :TestNearest<CR>
+nnoremap <silent> tF :TestFile<CR>
+nnoremap <silent> tS :TestSuite<CR>
+nnoremap <silent> tL :TestLast<CR>
+nnoremap <silent> tV :TestVisit<CR>
 
-""" Color setting
+""" Floaterm settings
+let g:floaterm_autoclose = 1
+let g:floaterm_borderchars = "─│─│╭╮╯╰"
+nnoremap <silent> fo :FloatermNew<CR>
+nnoremap <silent> fp :FloatermPrev<CR>
+nnoremap <silent> fn :FloatermNext<CR>
+nnoremap <silent> ft :FloatermToggle<CR>
+nnoremap <silent> fs :FloatermShow<CR>
+nnoremap <silent> fh :FloatermHide<CR>
+
+""" Caw settings
+nmap <C-l> <Plug>(caw:zeropos:toggle)
+vmap <C-l> <Plug>(caw:zeropos:toggle)
+
+""" Custom command
+nnoremap <silent> [b :bprev<CR>
+nnoremap <silent> [n :bnext<CR>
+nnoremap <silent> zz :Defx<CR>
+nnoremap <silent> [w <C-w>
+inoremap <silent> <C-i><C-i> <Esc>
+vnoremap <silent> <C-i><C-i> <Esc>
+tnoremap <silent> <C-i><C-i> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
+
+""" Custom toggle window setting
+let g:toggle_window_size = 0
+function! ToggleWindowSize()
+  if g:toggle_window_size == 1
+    exec "normal \<C-w>="
+    let g:toggle_window_size = 0
+  else
+    :resize
+    :vertical resize
+    let g:toggle_window_size = 1
+  endif
+endfunction
+nnoremap M :call ToggleWindowSize()<CR>
+
+""" Custom change directory function
+command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>', '<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd' . a:directory
+  endif
+  if a:bang == ''
+    pwd
+  endif
+endfunction
+
+""" Custom change current directory.
+nnoremap <silent> <Space>cd :<C-u>CD<CR>
+
+""" Custom grep count
+nnoremap <expr> / CustomGrep(":%s/<Cursor>/&/gn")
+function! s:MoveCursorPosMapping(str, ...)
+  let left = get(a:, 1, "<Left>")
+  let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+  return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+function! CustomGrep(str)
+  return s:MoveCursorPosMapping(a:str, "\<Left>")
+endfunction
+
+""" Treesitter setting
+lua <<LUA
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = 'maintained',
+  highlight = {
+    enable = true,
+    disable = {}
+  },
+  indent = {
+    enable = true,
+  },
+}
+LUA
+
+""" Airline setting
 let g:airline_theme = 'papercolor'
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#enabled = 1
-autocmd ColorScheme * highlight Normal ctermbg=none
-autocmd ColorScheme * highlight LineNr ctermbg=none
-autocmd ColorScheme * highlight Visual ctermbg=DarkMagenta
-autocmd ColorScheme * highlight Comment ctermfg=DarkCyan
-autocmd ColorScheme * highlight CursorColumn ctermfg=LightGreen
+let g:airline#extensions#denite#enabled = 1
+
+""" Style setting
+autocmd ColorScheme * highlight Normal ctermbg=none guibg=none
+autocmd ColorScheme * highlight LineNr ctermbg=none guibg=none
+autocmd ColorScheme * highlight Visual ctermbg=DarkMagenta guibg=DarkMagenta
+autocmd ColorScheme * highlight Comment ctermfg=DarkCyan guifg=DarkCyan
+autocmd ColorScheme * highlight CursorColumn ctermfg=LightGreen guifg=LightGreen
+autocmd ColorScheme * highlight Comment ctermfg=Gray guifg=Gray
+autocmd ColorScheme * highlight FloatBorder ctermbg=none guibg=none
+autocmd ColorScheme * highlight NormalFloat ctermbg=none guibg=none
+autocmd ColorScheme * highlight Pmenu ctermbg=none guibg=none ctermfg=39 guifg=#E6FFE9
+autocmd ColorScheme * highlight PmenuSbar ctermbg=none guibg=none
+autocmd ColorScheme * highlight FloatermBorder ctermbg=none ctermfg=White guibg=none guifg=White
 colorscheme molokai
