@@ -71,7 +71,7 @@ nnoremap <silent> tf :LspDocumentFormat<CR>
 nnoremap <silent> th :LspHover<CR>
 nnoremap <silent> ta :LspCodeAction<CR>
 nnoremap <silent> tg :LspDocumentDiagnostics<CR>
-let g:asyncomplete_popup_delay = 200
+" let g:asyncomplete_popup_delay = 100
 imap <Nul> <C-Space>
 imap <C-Space> <Plug>(asyncomplete_force_refresh)
 autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
@@ -158,9 +158,9 @@ nnoremap <silent> [b :bprev<CR>
 nnoremap <silent> [n :bnext<CR>
 nnoremap <silent> zz :Defx<CR>
 nnoremap <silent> [w <C-w>
-inoremap <silent> <C-i><C-i> <Esc>
-vnoremap <silent> <C-i><C-i> <Esc>
-tnoremap <silent> <C-i><C-i> <C-\><C-n>
+inoremap <silent> <C-u><C-u> <Esc>
+vnoremap <silent> <C-u><C-u> <Esc>
+tnoremap <silent> <C-u><C-u> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
 
 """ Custom toggle window setting
