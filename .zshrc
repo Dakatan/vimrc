@@ -1,34 +1,33 @@
-export ZSH="/Users/daisuke.takada.nd/.oh-my-zsh"
-ZSH_THEME="cobalt2"
-ZSH_DISABLE_COMPFIX=true
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# ZSH_THEME_RANDOM_CANDIDATES=("robbyrussell" "agnoster")
-# CASE_SENSITIVE="true"
-# HYPHEN_INSENSITIVE="true"
-# DISABLE_AUTO_UPDATE="true"
-# DISABLE_UPDATE_PROMPT="true"
-# export UPDATE_ZSH_DAYS=13
-# DISABLE_MAGIC_FUNCTIONS=true
-# DISABLE_LS_COLORS="true"
-# DISABLE_AUTO_TITLE="true"
-# ENABLE_CORRECTION="true"
-# COMPLETION_WAITING_DOTS="true"
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-# HIST_STAMPS="mm/dd/yyyy"
-# ZSH_CUSTOM=/path/to/new-custom-folder
+source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 
-plugins=(git)
+bindkey -e
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+bindkey '^P' history-beginning-search-backward
+bindkey '^N' history-beginning-search-forward
 
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-alias gg='cd $(ghq root)/$(ghq list | peco)'
-alias chkubectx='kubectx $(kubectx | peco)'
-alias chkubens='kubens $(kubens | peco)'
+alias l='ls -la'
+alias ll='ls -l'
+alias gg='cd $(ghq root)/$(ghq list | fzf --reverse)'
+alias vv='vim $(find * -type f | fzf --reverse --preview "bat --color=always --style=header,grid --line-range :100 {}")'
+alias cat='bat --style=plain --paging=never'
+alias cc='echo $(find * -type f | fzf --reverse --preview "bat --color=always --style=header,grid --line-range :100 {}")'
 alias tiller='/usr/local/opt/helm@2/bin/tiller'
+alias vim='nvim'
+alias vi='nvim'
 alias helm2='/usr/local/opt/helm@2/bin/helm'
 alias helm3='/usr/local/opt/helm/bin/helm'
+alias tmux='tmux -u'
+alias tt='tmux'
+alias wip='git commit -m ":construction: WIP"'
+
+export EDITOR=nvim
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 
 source $HOME/.cargo/env
 
@@ -52,3 +51,6 @@ eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 eval "$(nodenv init -)"
 eval "$(exenv init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
