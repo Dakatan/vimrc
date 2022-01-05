@@ -1,0 +1,26 @@
+[core]
+	editor = nvim
+[user]
+	name = "Xxx Xxx"
+	email = your-email@mail.local
+[web]
+	browser = open
+[browser "chrome"]
+	cmd = open -a 'Google Chrome.app'
+[includeIf "gitdir:~/GitProjects/github.com/"]
+	path = ~/.githubconfig
+[ghq]
+	root = ~/GitProjects
+[pull]
+	ff = only
+	rebase = true
+[difftool "nvimdiff"]
+	cmd = "nvim -R -d -c \"wincmd l\" -d \"$LOCAL\" \"$REMOTE\""
+[mergetool "nvimdiff"]
+	cmd = "nvim -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
+[diff "sopsdiffer"]
+	textconv = sops -d
+[diff]
+	tool = nvimdiff
+[merge]
+	tool = nvimdiff

@@ -244,3 +244,5 @@ repo = 'tyru/caw.vim'
 repo = 'rhysd/git-messenger.vim'
 [[plugins]]
 repo = 'jiangmiao/auto-pairs'
+[[plugins]]
+repo = 'junegunn/gv.vim'

@@ -1,0 +1,26 @@
+==> Formulae
+autoconf                freetype                harfbuzz                libffi                  libxau                  nghttp2                 python@3.10             tmux
+awscli                  fribidi                 helm                    libgcrypt               libxcb                  ngrep                   python@3.8              tree
+azure-cli               fzf                     helm@2                  libgpg-error            libxdmcp                node                    python@3.9              tree-sitter
+bat                     gcc                     helmfile                libidn2                 libxext                 node-build              qemu                    trivy
+bdw-gc                  gd                      htop                    libmaxminddb            libxrender              nodenv                  qrencode                unar
+berkeley-db             gdbm                    icu4c                   libmpc                  libyaml                 oniguruma               rbenv                   unbound
+brotli                  gdk-pixbuf              imgcat                  libnghttp2              log4cplus               openjdk                 readline                unibilium
+buf                     gettext                 isl                     libpng                  lua                     openjdk@8               ruby                    upx
+c-ares                  ghq                     istioctl                libpthread-stubs        luajit-openresty        openssl@1.1             ruby-build              utf8proc
+ca-certificates         giflib                  jansson                 librsvg                 luv                     operator-sdk            rustup-init             v8@3.15
+cairo                   gitmoji                 jasper                  libslirp                lzo                     p11-kit                 saml2aws                vde
+cask                    glib                    jemalloc                libsmi                  m4                      p7zip                   sbt                     vim
+cfssl                   gmp                     jpeg                    libssh                  maven                   pango                   shellcheck              watch
+clang-format            gnu-getopt              jq                      libtasn1                minikube                pcre                    six                     webp
+cloc                    gnutls                  k9s                     libtermkey              mpdecimal               peco                    snappy                  wget
+cocoapods               go                      kind                    libtiff                 mpfr                    perl                    sops                    wireshark
+coreutils               gobject-introspection   kompose                 libtool                 msgpack                 pixman                  sqlite                  wxmac
+emacs                   golangci-lint           kubectx                 libunistring            mysql-client            pkg-config              stern                   wxwidgets
+embulk                  graphite2               kubernetes-cli          libusb                  ncurses                 podman                  tcl-tk                  xorgproto
+erlang                  graphviz                kustomize               libuv                   neovim                  powerlevel10k           telepresence            xz
+evans                   gts                     libev                   libvterm                netpbm                  protobuf                terraform-docs          zsh
+fontconfig              guile                   libevent                libx11                  nettle                  pyenv                   tfenv                   zstd
+
+==> Casks
+bloomrpc                flutter                 font-hack-nerd-font     graphiql                meetingbar              osxfuse

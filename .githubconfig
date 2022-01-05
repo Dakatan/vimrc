@@ -1,0 +1,7 @@
+[user]
+	name = "Xxx Xxx"
+	email = your-email@mail.local
+[ghq]
+	root = ~/GitProjects
+	[github]
+		token = XXXXXX
