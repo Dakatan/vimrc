@@ -10,6 +10,13 @@ bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
 
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=100000
+setopt hist_ignore_dups
+setopt share_history
+setopt EXTENDED_HISTORY
+
 alias l='ls -la'
 alias ll='ls -l'
 alias gg='cd $(ghq root)/$(ghq list | fzf --reverse)'
