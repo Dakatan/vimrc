@@ -142,12 +142,12 @@ nnoremap <silent> tV :TestVisit<CR>
 """ Floaterm settings
 let g:floaterm_autoclose = 1
 let g:floaterm_borderchars = "─│─│╭╮╯╰"
-nnoremap <silent> fo :FloatermNew<CR>
-nnoremap <silent> fp :FloatermPrev<CR>
-nnoremap <silent> fn :FloatermNext<CR>
-nnoremap <silent> ft :FloatermToggle<CR>
-nnoremap <silent> fs :FloatermShow<CR>
-nnoremap <silent> fh :FloatermHide<CR>
+nnoremap <silent> <C-f><C-o> :FloatermNew<CR>
+nnoremap <silent> <C-f><C-p> :FloatermPrev<CR>
+nnoremap <silent> <C-f><C-n> :FloatermNext<CR>
+nnoremap <silent> <C-f><C-t> :FloatermToggle<CR>
+nnoremap <silent> <C-f><C-s> :FloatermShow<CR>
+nnoremap <silent> <C-f><C-h> :FloatermHide<CR>
 
 """ Caw settings
 nmap <C-l> <Plug>(caw:zeropos:toggle)
@@ -158,9 +158,9 @@ nnoremap <silent> [b :bprev<CR>
 nnoremap <silent> [n :bnext<CR>
 nnoremap <silent> zz :Defx<CR>
 nnoremap <silent> [w <C-w>
-inoremap <silent> <C-u><C-u> <Esc>
-vnoremap <silent> <C-u><C-u> <Esc>
-tnoremap <silent> <C-u><C-u> <C-\><C-n>
+inoremap <silent> <C-u> <Esc>
+vnoremap <silent> <C-u> <Esc>
+tnoremap <silent> <C-u> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
 
 """ Custom toggle window setting
@@ -204,19 +204,11 @@ function! CustomGrep(str)
   return s:MoveCursorPosMapping(a:str, "\<Left>")
 endfunction
 
-""" Treesitter setting
-lua <<LUA
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = 'maintained',
-  highlight = {
-    enable = true,
-    disable = {}
-  },
-  indent = {
-    enable = true,
-  },
-}
-LUA
+""" Telescope settings
+nnoremap ff <cmd>Telescope find_files<cr>
+nnoremap fg <cmd>Telescope live_grep<cr>
+nnoremap fb <cmd>Telescope buffers<cr>
+nnoremap fh <cmd>Telescope help_tags<cr>
 
 """ Airline setting
 let g:airline_theme = 'papercolor'
@@ -225,6 +217,28 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline#extensions#denite#enabled = 1
+
+""" Treesitter setting
+lua << LUA
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",
+  sync_install = false,
+  auto_install = true,
+  ignore_install = { },
+  highlight = {
+    enable = true,
+    disable = { },
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+    additional_vim_regex_highlighting = false,
+  },
+}
+LUA
 
 """ Style setting
 autocmd ColorScheme * highlight Normal ctermbg=none guibg=none
